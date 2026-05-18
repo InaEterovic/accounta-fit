@@ -4,7 +4,7 @@
     "slug": "accountafit",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/accountafit_icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash-icon.png",
@@ -15,11 +15,10 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.inaeterovic.accountafit",
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
+        "foregroundImage": "./assets/accountafit_icon.png",
+        "backgroundColor": "#185FA5"
       },
       "predictiveBackGestureEnabled": false
     },
@@ -28,6 +27,11 @@
     },
     "plugins": [
       "@react-native-community/datetimepicker"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "1015ea65-7211-4400-95e8-f269b6947124"
+      }
+    }
   }
 }

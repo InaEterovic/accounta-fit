@@ -1,13 +1,36 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { signOut } from 'firebase/auth';
-import { auth } from '../firebase';
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { signOut } from "firebase/auth";
+import { auth, db } from "../firebase";
+import { useEffect, useState } from "react";
+import { query, collection, orderBy, limit, getDocs } from "firebase/firestore";
 
 export default function HomeScreen() {
+  const [currentWeight, setCurrentWeight] = useState<number | null>(null);
+
+  useEffect(() => {
+    const uid = auth.currentUser!.uid;
+
+    async function fetchData() {
+      const q = query(
+        collection(db, "users", uid, "measurements"),
+        orderBy("createdAt", "desc"),
+        limit(1),
+      );
+      const snap = await getDocs(q);
+      if (!snap.empty) {
+        setCurrentWeight(snap.docs[0].data().weight as number);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.label}>AccountaFit</Text>
-      <Text style={styles.title}>Work in progress</Text>
-      <Text style={styles.subtitle}>Check back soon.</Text>
+      <Text style={styles.title}>
+        {currentWeight !== null ? ` ${currentWeight} kgs` : "Log your weight"}
+      </Text>
       <TouchableOpacity style={styles.button} onPress={() => signOut(auth)}>
         <Text style={styles.buttonText}>Sign out</Text>
       </TouchableOpacity>
@@ -18,41 +41,41 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
     padding: 24,
   },
   label: {
     fontSize: 13,
-    fontWeight: '500',
+    fontWeight: "500",
     letterSpacing: 2,
-    color: '#185FA5',
-    textTransform: 'uppercase',
+    color: "#185FA5",
+    textTransform: "uppercase",
     marginBottom: 16,
   },
   title: {
     fontSize: 36,
-    fontWeight: '300',
+    fontWeight: "300",
     letterSpacing: 1,
-    color: '#111',
+    color: "#111",
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 15,
-    color: '#999',
+    color: "#999",
     marginBottom: 48,
   },
   button: {
     borderWidth: 1,
-    borderColor: '#185FA5',
+    borderColor: "#185FA5",
     paddingVertical: 12,
     paddingHorizontal: 32,
     borderRadius: 8,
   },
   buttonText: {
-    color: '#185FA5',
+    color: "#185FA5",
     fontSize: 15,
-    fontWeight: '500',
+    fontWeight: "500",
   },
 });

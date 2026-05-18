@@ -59,7 +59,7 @@ export default function GoalsStep({ draft, onNext, onBack }: Props) {
             placeholderTextColor="#aaa"
             value={targetWeight}
             onChangeText={setTargetWeight}
-            keyboardType="numeric"
+            keyboardType="decimal-pad"
             returnKeyType="done"
           />
           <Text style={styles.unit}>kg</Text>

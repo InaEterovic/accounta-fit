@@ -3,8 +3,10 @@ import { signOut } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { useEffect, useState } from "react";
 import { query, collection, orderBy, limit, getDocs } from "firebase/firestore";
+import { useNavigation } from "@react-navigation/native";
 
 export default function HomeScreen() {
+  const navigation = useNavigation<any>();
   const [currentWeight, setCurrentWeight] = useState<number | null>(null);
 
   useEffect(() => {
@@ -25,12 +27,27 @@ export default function HomeScreen() {
     fetchData();
   }, []);
 
+  const logWeight = () => {
+    navigation.navigate("Log", { mode: "weight" });
+  };
+
+  const logMeasurements = () => {
+    navigation.navigate("Log", { mode: "measurements" });
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.label}>AccountaFit</Text>
       <Text style={styles.title}>
         {currentWeight !== null ? ` ${currentWeight} kgs` : "Log your weight"}
       </Text>
+
+      <TouchableOpacity style={styles.button} onPress={logWeight}>
+        <Text style={styles.buttonText}>Log Weight</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={logMeasurements}>
+        <Text style={styles.buttonText}>Log Measurements</Text>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={() => signOut(auth)}>
         <Text style={styles.buttonText}>Sign out</Text>
       </TouchableOpacity>
@@ -72,6 +89,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 32,
     borderRadius: 8,
+    marginVertical: 4,
   },
   buttonText: {
     color: "#185FA5",

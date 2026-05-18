@@ -124,7 +124,7 @@ export default function ProfileStep({ draft, onNext }: Props) {
             placeholderTextColor="#aaa"
             value={height}
             onChangeText={setHeight}
-            keyboardType="numeric"
+            keyboardType="decimal-pad"
             returnKeyType="done"
           />
           <Text style={styles.unit}>cm</Text>

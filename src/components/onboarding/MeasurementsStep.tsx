@@ -108,7 +108,7 @@ function MeasurementInput({
           placeholderTextColor="#aaa"
           value={value}
           onChangeText={onChangeText}
-          keyboardType="numeric"
+          keyboardType="decimal-pad"
           returnKeyType="next"
         />
         <Text style={styles.unit}>{unit}</Text>

@@ -1,5 +1,4 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { signOut } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { useCallback, useState } from "react";
 import { query, collection, orderBy, limit, getDocs } from "firebase/firestore";
@@ -49,9 +48,6 @@ export default function HomeScreen() {
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={logMeasurements}>
         <Text style={styles.buttonText}>Log Measurements</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => signOut(auth)}>
-        <Text style={styles.buttonText}>Sign out</Text>
       </TouchableOpacity>
     </View>
   );

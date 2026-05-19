@@ -1,31 +1,33 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { signOut } from "firebase/auth";
 import { auth, db } from "../firebase";
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { query, collection, orderBy, limit, getDocs } from "firebase/firestore";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 export default function HomeScreen() {
   const navigation = useNavigation<any>();
   const [currentWeight, setCurrentWeight] = useState<number | null>(null);
 
-  useEffect(() => {
-    const uid = auth.currentUser!.uid;
+  useFocusEffect(
+    useCallback(() => {
+      const uid = auth.currentUser!.uid;
 
-    async function fetchData() {
-      const q = query(
-        collection(db, "users", uid, "measurements"),
-        orderBy("createdAt", "desc"),
-        limit(1),
-      );
-      const snap = await getDocs(q);
-      if (!snap.empty) {
-        setCurrentWeight(snap.docs[0].data().weight as number);
+      async function fetchData() {
+        const q = query(
+          collection(db, "users", uid, "measurements"),
+          orderBy("createdAt", "desc"),
+          limit(1),
+        );
+        const snap = await getDocs(q);
+        if (!snap.empty) {
+          setCurrentWeight(snap.docs[0].data().weight as number);
+        }
       }
-    }
 
-    fetchData();
-  }, []);
+      fetchData();
+    }, [])
+  );
 
   const logWeight = () => {
     navigation.navigate("Log", { mode: "weight" });

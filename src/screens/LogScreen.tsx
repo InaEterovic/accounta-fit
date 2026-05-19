@@ -45,6 +45,8 @@ export default function LogScreen() {
 
   const [weight, setWeight] = useState("");
   const [waist, setWaist] = useState("");
+
+  const sanitizeDecimal = (v: string) => v.replace(/,/g, "");
   const [hip, setHip] = useState("");
   const [neck, setNeck] = useState("");
   const [arm, setArm] = useState("");
@@ -143,7 +145,7 @@ export default function LogScreen() {
               placeholder={last ? String(last.weight) : "0"}
               placeholderTextColor="#aaa"
               value={weight}
-              onChangeText={setWeight}
+              onChangeText={(v) => setWeight(sanitizeDecimal(v))}
               keyboardType="decimal-pad"
               returnKeyType="done"
               autoFocus
@@ -222,7 +224,7 @@ function MeasurementInput({
           placeholder={last != null ? String(last) : "-"}
           placeholderTextColor="#aaa"
           value={value}
-          onChangeText={onChangeText}
+          onChangeText={(v) => onChangeText(v.replace(/,/g, ""))}
           keyboardType="decimal-pad"
           returnKeyType="next"
         />
